@@ -37,7 +37,7 @@ def digits_to_words(input_string):
 
         digit_string += digit_list[int(w)] + " "
 
-    digit_string.strip()
+    digit_string = digit_string.strip()
 
     return digit_string
 
@@ -75,7 +75,10 @@ def to_camel_case(underscore_str):
             "alreadyCamel"
     """
     camelcase_str = ""
-    ok = -1
+    if len(underscore_str.split("_")) == 1:
+        return underscore_str
+
+    ok = False
     flag = False
 
     for i in range(len(underscore_str)):
@@ -91,12 +94,9 @@ def to_camel_case(underscore_str):
             else:
                 camelcase_str += now.lower()
                 flag = True
-            ok = 1
-        elif ok == 1:  # 이외 글자들은 소문자로 더함
+            ok = True
+        else:  # 이외 글자들은 소문자로 더함
             camelcase_str += now.lower()
-            flag = True
-        else:  # 이미 카멜이면 그대로 더함
-            camelcase_str += now
             flag = True
 
     return camelcase_str
