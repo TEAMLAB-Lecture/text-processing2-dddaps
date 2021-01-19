@@ -28,7 +28,17 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    digit_string = ""
+    digit_list = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+
+    for w in input_string:
+        if not w.isdigit():
+            continue
+
+        digit_string += digit_list[int(w)] + " "
+
+    digit_string.strip()
+
     return digit_string
 
 
@@ -64,5 +74,53 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    camelcase_str = ""
+    ok = -1
+    flag = False
+
+    for i in range(len(underscore_str)):
+        now = underscore_str[i]
+
+        if now == '_':  # 언더스코어가 나오면 현재 글자는 무시
+            ok = 0
+            continue
+        
+        if ok == 0:  # 다음 글자를 대문자로 바꿔서 더함
+            if flag:
+                camelcase_str += now.upper()
+            else:
+                camelcase_str += now.lower()
+                flag = True
+            ok = 1
+        elif ok == 1:  # 이외 글자들은 소문자로 더함
+            camelcase_str += now.lower()
+            flag = True
+        else:  # 이미 카멜이면 그대로 더함
+            camelcase_str += now
+            flag = True
+
     return camelcase_str
+
+
+def main():
+    input_string = "Zip Code: 19104"
+    input_string2 = "Pi is 3.1415..."
+
+    print ("Normalize Test")
+    print (digits_to_words(input_string)) # Expected Result: 'one nine one zero four'
+    print (digits_to_words(input_string2)) # Expected Result: 'three one four one five'
+    print ("Normalize Test Closed \n")
+
+    input_string = "to_camel_case"
+    input_string2 = "__EXAMPLE__NAME__"
+    input_string3 = "alreadyCamel"
+
+    print ("No Vowels Test")
+    print (to_camel_case(input_string)) # Expected Result: "toCamelCase"
+    print (to_camel_case(input_string2)) # Expected Result: "exampleName"
+    print (to_camel_case(input_string3)) # Expected Result: "alreadyCamel"
+    print ("No Vowels Test Closed \n")
+
+
+if __name__ == "__main__":
+    main()
